@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Spotify AB
+ * Copyright 2021 Spotify AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-export type { CatalogApi } from '@backstage/catalog-client';
-export { catalogApiRef } from './api';
-export * from './components';
-export * from './filter';
-export * from './hooks';
-export {
-  catalogRouteRef,
-  entityRoute,
-  entityRouteParams,
-  entityRouteRef,
-  rootRoute,
-} from './routes';
-export * from './utils';
+import { Entity } from '@backstage/catalog-model';
+import { createContext } from 'react';
+import { Filter } from '../types';
+
+export type FiltersContext = {
+  loading: boolean;
+  error: Error | undefined;
+  serverEntities: Entity[];
+  entities: Entity[];
+  registerFilter: (initialValue?: () => Filter) => string;
+  unregisterFilter: (id: string) => void;
+  setFilter: (id: string, filter: Filter) => void;
+};
+
+export const filtersContext = createContext<FiltersContext | undefined>(
+  undefined,
+);
